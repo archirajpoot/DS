@@ -4,9 +4,9 @@ struct node{
     int data;
     node *next;
 };
-node *first,*temp,*ttemp,*p;
+node *first,*temp,*ttemp,*p,*prevm,*prevn;
 void init(){
-    first=temp=ttemp=p=NULL;
+    first=temp=ttemp=p=prevm=prevn=NULL;
 }
 void create_first(int n){
    first=new node;
@@ -24,7 +24,7 @@ void add_before_first(int x){
     temp=new node;
     temp->data=x;
     temp->next=first;
-    first=temp;
+    first=temp; 
 }
 void add_before(int x,int y){
     temp=first;
@@ -109,19 +109,60 @@ void swap12(){
     temp->next=p;
     ttemp->next=temp;
     first=ttemp;
-    
-}
+} 
 void swapFL() {
     temp = first;
-    while (temp->next->next != NULL)
-        temp = temp->next;
+    while(temp->next!=NULL){
+      ttemp=temp;
+      temp=temp->next;
+    }
+    p=first->next;
+    ttemp->next=first;
+    first->next=NULL;
+    temp->next=p;
+    first = temp;
 
-    ttemp = temp->next;
-    p=first->next;       // ttemp = last node
-    ttemp->next =p; // last node points to second node
-    temp->next = first;        // second last node points to first node
-    first->next = NULL;        // first node becomes last
-    first = ttemp;             // last node becomes new first
+}
+// void swapFL() {
+//     temp = first;
+//     while (temp->next->next != NULL)     // Step 1: reach 2nd last node
+//         temp = temp->next;
+
+//     ttemp = temp->next;                  // Step 2: ttemp = last node
+//     p = first->next;                     // Step 3: p = 2nd node
+
+//     ttemp->next = p;                     // Step 4: last node points to 2nd node
+//     temp->next = first;                  // Step 5: 2nd last node points to 1st node
+//     first->next = NULL;                  // Step 6: old first becomes last
+//     first = ttemp;                       // Step 7: update head to new first
+// }
+void swap2ll(){
+    temp=first;
+    while(temp->next->next!=NULL){
+       ttemp=temp;
+       temp=temp->next;
+    }
+    p=temp->next;
+    temp->next=NULL;
+    ttemp->next=p;
+    p->next=temp;
+}
+void swap(int m,int n){
+    temp=first;
+    for(int i=0;i<m;i++){
+     prevm=temp;
+     temp=temp->next;
+    }
+    ttemp=first;
+    for(int i=0;i<n;i++){
+      prevn=ttemp;
+      ttemp=ttemp->next;
+    }
+    if(prevm!=NULL) prevm->next=ttemp; else first=ttemp;
+    if(prevn!=NULL) prevn->next=temp; else first=temp;
+    p=temp->next;
+    temp->next=ttemp->next;
+    ttemp->next=p;
 }
 void display(){
     temp=first;
@@ -131,6 +172,7 @@ void display(){
         temp=temp->next;
     }
 }
+
 int main(){
 init();
 create_first(1);
@@ -152,5 +194,7 @@ del_before(60);
 del_2last();
 swap12();
 swapFL();
+swap2ll();
+swap(2,6);
 display();
 }
