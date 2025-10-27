@@ -37,7 +37,8 @@ void add_before_first(int x){
     temp=new node;
     temp->data=x;
     temp->next=first;
-    temp->prev=NULL;
+    temp->prev=NULL;   
+    first->prev=temp;
     first=temp; 
 }
 int main(){
