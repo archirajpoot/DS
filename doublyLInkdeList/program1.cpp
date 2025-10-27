@@ -41,11 +41,26 @@ void add_before_first(int x){
     first->prev=temp;
     first=temp; 
 }
+
+void add_before(int x,int y){
+    temp=first;
+    while(temp->data!=x){
+        ttemp=temp;
+        temp=temp->next;
+    }
+    p=new node;
+    p->data=y;
+    ttemp->next=p;
+    p->prev=ttemp;
+    p->next=temp;
+    temp->prev=p;
+}
 int main(){
      init();
      create_first(1);
      add_node(2);
-     display();
      add_before_first(0);
+     add_before(2,22);
+     display();
      return 0;
 }
